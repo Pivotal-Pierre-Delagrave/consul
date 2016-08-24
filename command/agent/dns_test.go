@@ -902,6 +902,52 @@ func TestDNS_Recurse(t *testing.T) {
 	}
 }
 
+func TestDNS_InternalClientTimeout(t *testing.T) {
+	serverClientTimeout := 3 * time.Second
+	testClientTimeout := serverClientTimeout + 5*time.Second
+
+	unreachableServer := &dns.Server{
+		Addr:    "10.255.255.1", // must be an unreachable host
+	}
+
+	config := &DNSConfig{
+		InternalClientTimeout: serverClientTimeout,
+	}
+
+	dir, srv := makeDNSServer(t, config, unreachableServer)
+
+	defer os.RemoveAll(dir)
+	defer srv.agent.Shutdown()
+
+	m := new(dns.Msg)
+	m.SetQuestion("apple.com.", dns.TypeANY)
+
+	// This client calling the server under test must have a longer timeout than the one we set internally
+	c := &dns.Client{DialTimeout: testClientTimeout, ReadTimeout: testClientTimeout}
+	addr, _ := srv.agent.config.ClientListener("", srv.agent.config.Ports.DNS)
+
+	start := time.Now()
+	in, _, err := c.Exchange(m, addr.String())
+
+	duration := time.Now().Sub(start)
+
+	if err != nil {
+		t.Fatalf("err: %v", err)
+	}
+
+	if len(in.Answer) != 0 {
+		t.Fatalf("Bad: %#v", in)
+	}
+	if in.Rcode != dns.RcodeServerFailure {
+		t.Fatalf("Bad: %#v", in)
+	}
+
+	if duration < serverClientTimeout {
+		t.Fatalf("Expected the call to return after at least %f seconds but lastest only %f", serverClientTimeout.Seconds(), duration.Seconds())
+	}
+
+}
+
 func TestDNS_ServiceLookup_FilterCritical(t *testing.T) {
 	dir, srv := makeDNSServer(t, nil, nil)
 	defer os.RemoveAll(dir)
