@@ -902,7 +902,7 @@ func TestDNS_Recurse(t *testing.T) {
 	}
 }
 
-func TestDNS_InternalClientTimeout(t *testing.T) {
+func TestDNS_RecursorTimeout(t *testing.T) {
 	serverClientTimeout := 3 * time.Second
 	testClientTimeout := serverClientTimeout + 5*time.Second
 
