@@ -620,9 +620,9 @@ func (d *DNSServer) handleRecurse(resp dns.ResponseWriter, req *dns.Msg) {
 
 	// Recursively resolve
 	c := &dns.Client{Net: network,
-		DialTimeout:  d.config.InternalClientTimeout,
-		ReadTimeout:  d.config.InternalClientTimeout,
-		WriteTimeout: d.config.InternalClientTimeout}
+		DialTimeout:  d.config.RecursorTimeout,
+		ReadTimeout:  d.config.RecursorTimeout,
+		WriteTimeout: d.config.RecursorTimeout}
 	var r *dns.Msg
 	var rtt time.Duration
 	var err error
@@ -661,9 +661,9 @@ func (d *DNSServer) resolveCNAME(name string) []dns.RR {
 
 	// Make a DNS lookup request
 	c := &dns.Client{Net: "udp",
-		DialTimeout:  d.config.InternalClientTimeout,
-		ReadTimeout:  d.config.InternalClientTimeout,
-		WriteTimeout: d.config.InternalClientTimeout}
+		DialTimeout:  d.config.RecursorTimeout,
+		ReadTimeout:  d.config.RecursorTimeout,
+		WriteTimeout: d.config.RecursorTimeout}
 	var r *dns.Msg
 	var rtt time.Duration
 	var err error

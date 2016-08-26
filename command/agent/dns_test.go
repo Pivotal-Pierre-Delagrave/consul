@@ -911,7 +911,7 @@ func TestDNS_InternalClientTimeout(t *testing.T) {
 	}
 
 	config := &DNSConfig{
-		InternalClientTimeout: serverClientTimeout,
+		RecursorTimeout: serverClientTimeout,
 	}
 
 	dir, srv := makeDNSServer(t, config, unreachableServer)
