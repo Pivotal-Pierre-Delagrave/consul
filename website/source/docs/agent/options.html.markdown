@@ -422,6 +422,9 @@ definitions support being updated during a reload.
   nodes whose healthchecks are not passing will be excluded from DNS results. By default (or
   if set to false), only nodes whose healthchecks are failing as critical will be excluded.
 
+  * <a name="recursor_timeout"></a><a href="#recursor_timeout">`recursor_timeout`</a> Timeout used by consul while
+  recursively querying a downstream dns server. Default is 2s.
+
 * <a name="domain"></a><a href="#domain">`domain`</a> Equivalent to the
   [`-domain` command-line flag](#_domain).
 
