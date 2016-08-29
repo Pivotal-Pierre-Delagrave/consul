@@ -521,7 +521,7 @@ func TestDecodeConfig(t *testing.T) {
 	}
 
 	// DNS node ttl, max stale
-	input = `{"dns_config": {"node_ttl": "5s", "max_stale": "15s", "allow_stale": true, "internal_client_timeout": "7s"}}`
+	input = `{"dns_config": {"node_ttl": "5s", "max_stale": "15s", "allow_stale": true, "recursor_timeout": "7s"}}`
 	config, err = DecodeConfig(bytes.NewReader([]byte(input)))
 	if err != nil {
 		t.Fatalf("err: %s", err)
@@ -536,7 +536,7 @@ func TestDecodeConfig(t *testing.T) {
 	if !config.DNSConfig.AllowStale {
 		t.Fatalf("bad: %#v", config)
 	}
-	if config.DNSConfig.InternalClientTimeout != 7*time.Second {
+	if config.DNSConfig.RecursorTimeout != 7*time.Second {
 		t.Fatalf("bad: %#v", config)
 	}
 

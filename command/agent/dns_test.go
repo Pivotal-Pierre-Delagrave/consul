@@ -1385,14 +1385,14 @@ func TestDNS_Recurse(t *testing.T) {
 	}
 }
 
-func TestDNS_InternalClientTimeout(t *testing.T) {
+func TestDNS_RecursorTimeout(t *testing.T) {
 	serverClientTimeout := 3 * time.Second
 	testClientTimeout := serverClientTimeout + 5*time.Second
 
 	dir, srv := makeDNSServerConfig(t, func(c *Config) {
 		c.DNSRecursor = "10.255.255.1" // must be an unreachable host
 	}, func(c *DNSConfig) {
-		c.InternalClientTimeout = serverClientTimeout
+		c.RecursorTimeout = serverClientTimeout
 	})
 	defer os.RemoveAll(dir)
 	defer srv.agent.Shutdown()
