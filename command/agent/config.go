@@ -534,7 +534,7 @@ func DefaultConfig() *Config {
 			Server:  8300,
 		},
 		DNSConfig: DNSConfig{
-			MaxStale:              5 * time.Second,
+			MaxStale:        5 * time.Second,
 			RecursorTimeout: 2 * time.Second,
 		},
 		Telemetry: Telemetry{
