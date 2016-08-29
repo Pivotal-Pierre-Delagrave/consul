@@ -72,13 +72,13 @@ type DNSConfig struct {
 	// AllowStale to limit how old of a value is served up.
 	// If the stale result exceeds this, another non-stale
 	// stale read is performed.
-	MaxStale                 time.Duration `mapstructure:"-"`
-	MaxStaleRaw        string        `mapstructure:"max_stale" json:"-"`
+	MaxStale    time.Duration `mapstructure:"-"`
+	MaxStaleRaw string        `mapstructure:"max_stale" json:"-"`
 
 	// OnlyPassing is used to determine whether to filter nodes
 	// whose health checks are in any non-passing state. By
 	// default, only nodes in a critical state are excluded.
-	OnlyPassing        bool `mapstructure:"only_passing"`
+	OnlyPassing bool `mapstructure:"only_passing"`
 
 	// RecursorTimeout specifies the timeout in seconds
 	// for Consul's internal dns client used for recursion.
@@ -450,7 +450,7 @@ func DefaultConfig() *Config {
 			Server:  8300,
 		},
 		DNSConfig: DNSConfig{
-			MaxStale:              5 * time.Second,
+			MaxStale:        5 * time.Second,
 			RecursorTimeout: 2 * time.Second,
 		},
 		StatsitePrefix:      "consul",
